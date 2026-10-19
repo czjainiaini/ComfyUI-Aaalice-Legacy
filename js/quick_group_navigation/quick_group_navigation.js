@@ -21,7 +21,7 @@ function loadStyles() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = 'extensions/ComfyUI-Danbooru-Gallery/quick_group_navigation/styles.css';
+    link.href = new URL("./styles.css", import.meta.url).href;
     document.head.appendChild(link);
     logger.info('[QGN] 样式文件已加载');
 }
@@ -466,7 +466,7 @@ let globalManager = null;
  * 注册扩展到ComfyUI
  */
 app.registerExtension({
-    name: "danbooru.QuickGroupNavigation",
+    name: "Aaalice.Legacy.QuickGroupNavigation",
 
     async setup() {
         logger.info('[QGN] 扩展开始设置...');

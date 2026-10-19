@@ -710,7 +710,7 @@ class FetchFromKrita:
 def get_node_class_mappings():
     """返回节点类映射"""
     return {
-        "FetchFromKrita": FetchFromKrita,
+        "AaaliceLegacy_FetchFromKrita": FetchFromKrita,
         "OpenInKrita": FetchFromKrita  # 向后兼容的别名
     }
 
@@ -718,7 +718,7 @@ def get_node_class_mappings():
 def get_node_display_name_mappings():
     """返回节点显示名称映射"""
     return {
-        "FetchFromKrita": "从Krita获取数据 (Fetch From Krita)",
+        "AaaliceLegacy_FetchFromKrita": "从Krita获取数据 (Fetch From Krita)",
         "OpenInKrita": "从Krita获取数据 (Fetch From Krita)"  # 向后兼容
     }
 

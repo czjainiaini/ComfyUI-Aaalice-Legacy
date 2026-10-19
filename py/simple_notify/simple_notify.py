@@ -101,14 +101,14 @@ class SimpleNotify:
 def get_node_class_mappings():
     """返回节点类映射"""
     return {
-        "SimpleNotify": SimpleNotify
+        "AaaliceLegacy_SimpleNotify": SimpleNotify
     }
 
 
 def get_node_display_name_mappings():
     """返回节点显示名称映射"""
     return {
-        "SimpleNotify": "简易通知 (Simple Notify)"
+        "AaaliceLegacy_SimpleNotify": "简易通知 (Simple Notify)"
     }
 
 

@@ -34,9 +34,9 @@ const notificationSetup = () => {
 
 // 注册节点扩展
 app.registerExtension({
-    name: "danbooru.SimpleNotify",
+    name: "Aaalice.Legacy.SimpleNotify",
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name === "SimpleNotify") {
+        if (nodeData.name === "AaaliceLegacy_SimpleNotify") {
             // 节点创建时的初始化
             const onNodeCreated = nodeType.prototype.onNodeCreated;
             nodeType.prototype.onNodeCreated = function () {

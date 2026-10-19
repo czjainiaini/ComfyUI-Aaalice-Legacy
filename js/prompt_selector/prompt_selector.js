@@ -514,7 +514,7 @@ app.registerExtension({
             if (!app.graph || !app.graph._nodes) return;
 
             const promptSelectorNodes = app.graph._nodes.filter(
-                node => node.type === "PromptSelector"
+                node => node.type === "AaaliceLegacy_PromptSelector"
             );
 
             logger.info(`[PromptSelector] 全局同步事件触发,更新 ${promptSelectorNodes.length} 个节点 (源节点ID: ${sourceNodeId || 'none'})`);
@@ -581,7 +581,7 @@ app.registerExtension({
     },
 
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name === "PromptSelector") {
+        if (nodeData.name === "AaaliceLegacy_PromptSelector") {
 
             // 使用全局多语言系统（prompt_selector命名空间）
             const t = (key, replacements) => {

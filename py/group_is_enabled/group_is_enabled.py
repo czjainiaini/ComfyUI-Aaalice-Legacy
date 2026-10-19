@@ -87,9 +87,9 @@ class GroupIsEnabled:
 
 # 节点映射
 NODE_CLASS_MAPPINGS = {
-    "GroupIsEnabled": GroupIsEnabled,
+    "AaaliceLegacy_GroupIsEnabled": GroupIsEnabled,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "GroupIsEnabled": "组是否启用 (Group Is Enabled)",
+    "AaaliceLegacy_GroupIsEnabled": "组是否启用 (Group Is Enabled)",
 }

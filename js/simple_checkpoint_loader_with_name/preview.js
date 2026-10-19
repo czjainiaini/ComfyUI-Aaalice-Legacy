@@ -243,7 +243,7 @@ async function attachPreviewHandlers(menu) {
  * 注册ComfyUI扩展
  */
 app.registerExtension({
-    name: "danbooru.SimpleCheckpointLoaderPreview",
+    name: "Aaalice.Legacy.SimpleCheckpointLoaderPreview",
 
     async nodeCreated(node) {
         // 仅处理SimpleCheckpointLoaderWithName节点

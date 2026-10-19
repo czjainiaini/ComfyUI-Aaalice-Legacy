@@ -182,10 +182,10 @@ async function syncGroupStatesToBackend(timeout = 2000) {
 // ============================================================
 
 app.registerExtension({
-    name: "danbooru.GroupIsEnabled",
+    name: "Aaalice.Legacy.GroupIsEnabled",
 
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name !== "GroupIsEnabled") return;
+        if (nodeData.name !== "AaaliceLegacy_GroupIsEnabled") return;
 
         // 节点创建时的处理
         const onNodeCreated = nodeType.prototype.onNodeCreated;

@@ -59,14 +59,14 @@ class SimpleStringSplit:
 def get_node_class_mappings():
     """返回节点类映射"""
     return {
-        "SimpleStringSplit": SimpleStringSplit
+        "AaaliceLegacy_SimpleStringSplit": SimpleStringSplit
     }
 
 
 def get_node_display_name_mappings():
     """返回节点显示名称映射"""
     return {
-        "SimpleStringSplit": "简易字符串分隔 (Simple String Split)"
+        "AaaliceLegacy_SimpleStringSplit": "简易字符串分隔 (Simple String Split)"
     }
 
 

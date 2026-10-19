@@ -25,7 +25,7 @@ app.registerExtension({
 
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         // 支持两个节点名称：新的FetchFromKrita和旧的OpenInKrita（向后兼容）
-        if (nodeData.name === "FetchFromKrita" || nodeData.name === "OpenInKrita") {
+        if (nodeData.name === "AaaliceLegacy_FetchFromKrita" || nodeData.name === "OpenInKrita") {
             logger.info(`[FetchFromKrita] Registering node extension for ${nodeData.name}`);
 
             // 添加右键菜单选项

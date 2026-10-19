@@ -138,6 +138,12 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **vae_fix_display_mappings
 }
 
+from .coexistence import register_coexistence_api, PREFIX, SHARED
+for _legacy_key in SHARED:
+    _node_key = PREFIX + _legacy_key
+    NODE_DISPLAY_NAME_MAPPINGS[_node_key] = "旧版 / Legacy · " + NODE_DISPLAY_NAME_MAPPINGS[_node_key]
+register_coexistence_api(NODE_CLASS_MAPPINGS)
+
 # 统计节点加载情况
 _node_load_stats["total_nodes"] = len(NODE_CLASS_MAPPINGS)
 _node_load_stats["loaded_modules"] = 21  # 成功导入的模块数(根据上面的import语句统计)

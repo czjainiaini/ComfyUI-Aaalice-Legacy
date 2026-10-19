@@ -1,128 +1,75 @@
-> [!CAUTION]
-> ### 🚚 项目已迁移
->
-> 本仓库已停止新功能开发，仅保留历史代码与文档。节点功能及后续更新已迁移至 **[ComfyUI-Aaalice-Nodes](https://github.com/Aaalice233/ComfyUI-Aaalice-Nodes)**，请前往新项目安装和使用。
->
-> 新版工作流请查看 **[Aaalice-Workflows](https://github.com/Aaalice233/Aaalice-Workflows)**；工作流管理与分享功能请查看 **[ComfyUI-Aaalice-Workflow-Hub](https://github.com/Aaalice233/ComfyUI-Aaalice-Workflow-Hub)**。
+# ComfyUI-Aaalice-Legacy
 
-# 🎨 ComfyUI-Danbooru-Gallery
+[English](README.en.md) · 简体中文
 
-🇨🇳 本节点专为 [ShiQi_Workflow](https://github.com/Aaalice233/ShiQi_Workflow) 工作流打造，聚焦中文用户的实际使用场景与体验。
+这是 [ComfyUI-Danbooru-Gallery](https://github.com/Aaalice233/ComfyUI-Danbooru-Gallery) 的非官方维护 Fork，保留旧 Illustrious / NoobAI 工作流所需的节点，并解决它与官方 [ComfyUI-Aaalice-Nodes](https://github.com/Aaalice233/ComfyUI-Aaalice-Nodes) 的节点身份冲突。
 
-✨ 面向 ComfyUI 的实用节点集合，重点覆盖 Danbooru 图像检索、提示词编辑/清洗、缓存管理、Krita 联动与工作流辅助工具。
+原作者：Aaalice233。Fork 维护者：czjainiaini。沿用原项目 MIT 许可。本 Fork 的默认维护分支是 **`coexistence`**。
 
-## 📌 当前状态
+## 安装
 
-- ✅ 当前注册节点数：`23`
-- 🧩 前端扩展：包含若干 JS 面板与交互增强（如快速组导航）
-- 🗂️ 已移除的旧节点不再列出
-
-## 🚀 安装
-
-1. 进入 ComfyUI 自定义节点目录：
+1. 关闭 ComfyUI，备份旧包的词库、预设和原工作流。
+2. 把原 `ComfyUI-Danbooru-Gallery` 移到 `custom_nodes` 外保留备份，或通过 Manager 禁用。**不要同时启用原旧包与本 Fork**。官方新版 `ComfyUI-Aaalice-Nodes` 保持原样，不需要打补丁。
+3. 在 `ComfyUI/custom_nodes` 目录克隆：
 
 ```bash
-cd ComfyUI/custom_nodes
+git clone --branch coexistence https://github.com/czjainiaini/ComfyUI-Aaalice-Legacy.git
 ```
 
-2. 克隆仓库：
+4. 使用 **ComfyUI 所用的 Python** 安装 `ComfyUI-Aaalice-Legacy/requirements.txt` 中的依赖。Windows 便携版示例（在便携版根目录运行）：
+
+```powershell
+.\python_embeded\python.exe -m pip install -r .\ComfyUI\custom_nodes\ComfyUI-Aaalice-Legacy\requirements.txt
+```
+
+5. 按相对路径迁移旧包的运行配置，例如 `py/prompt_selector/data.json` 词库及各功能目录的 `settings.json`。不要用旧源码覆盖本 Fork。
+6. 启动 ComfyUI，硬刷新浏览器，直接导入原工作流。安装或更新后重启一次即可，日常切换新旧工作流无需重启。
+
+## 更新
 
 ```bash
-git clone https://github.com/Aaalice233/ComfyUI-Danbooru-Gallery.git
+git -C ComfyUI-Aaalice-Legacy pull --ff-only
 ```
 
-3. 安装依赖：
+只有本 Fork 需要从这里更新；新版节点继续按作者原来的方式更新。工作流、模型和其它插件不由此仓库下载或升级。
+
+## 共存修复
+
+旧包与新版复用了五个全局节点 ID，且旧前端继续按这些 ID 修改控件。本 Fork 给旧实现独立身份：
+
+| 原旧节点 ID | 本 Fork 的节点 ID |
+| --- | --- |
+| PromptSelector | AaaliceLegacy_PromptSelector |
+| GroupIsEnabled | AaaliceLegacy_GroupIsEnabled |
+| SimpleNotify | AaaliceLegacy_SimpleNotify |
+| SimpleStringSplit | AaaliceLegacy_SimpleStringSplit |
+| FetchFromKrita | AaaliceLegacy_FetchFromKrita |
+
+- 新版原 ID 和实现不变，旧版前端仅绑定旧身份。
+- 导入完整画布 JSON 时，根据节点接口、来源标识和保存结构自动转换旧节点身份，包括子图定义。原文件、模型配置、连线、控件值不改写。
+- 旧元数据执行钩子仅介入含旧节点的任务；现代任务直接委托原执行函数，使用 ContextVar 隔离执行上下文。
+- 本 Fork 使用独立包名和扩展标识；样式文件从自身位置解析，可与未经修改的新版同时安装。
+- 其余旧节点保留，包括参数面板、参数展开、枚举切换、提示词清理、多角色编辑和旧保存功能。
+
+## 验证与边界
+
+已验证：Windows / ComfyUI 0.39.0 / 前端 1.53.10 / CPU 下，与未经修改的 `ComfyUI-Aaalice-Nodes` 0.18.6（提交 `2395128`）共存；具体记录见 [VALIDATION.md](VALIDATION.md)。
+
+这不表示旧包所有历史问题都已修复，也不表示完整 LL 出图已经验收。完整 GPU 推理、外部 LLM、画廊联网、全部元数据和 Krita 编辑仍需在实际运行环境验证。
+
+自动转换覆盖完整画布 JSON；片段粘贴、局部合并、API prompt JSON 和 App Mode 不在保证范围内。无法确定版本的重名节点会报错，不猜测。混用两包保存后已经损坏的数据不能凭空恢复，请优先导入干净原工作流。
+
+同一可视组只交给一套管理器控制，避免旧组管理器与新版 QuickGroupManager 争用节点 mode。旧包自己的弃用提示、缺依赖和宿主版本兼容问题仍需单独处理。
+
+## 开发测试
+
+运行不需要 Node.js；Node 仅用于开发回归检查。
 
 ```bash
-cd ComfyUI-Danbooru-Gallery
-pip install -r requirements.txt
+node --experimental-vm-modules --test tests/coexistence.test.mjs
+python -m unittest discover -s tests -v
 ```
 
-4. 重启 ComfyUI。
+可选：设置 `AAALICE_MODERN_ROOT` 为官方新版源码目录，会增加对原版冲突检测器的集成测试。没有该目录时该项明确跳过。
 
-## 🛠️ 依赖与环境
-
-- Python `>=3.8`
-- 主要依赖：`requests`、`aiohttp`、`aiosqlite`、`psutil`、`Pillow`、`torch`、`numpy`
-
-## 🧠 节点清单（当前有效）
-
-### 🖼️ 图像与提示词核心
-
-- `DanbooruGalleryNode`：D站画廊 (Danbooru Gallery)
-- `PromptSelector`：提示词选择器 (Prompt Selector)
-- `PromptCleaningMaid`：提示词清洁女仆 (Prompt Cleaning Maid)
-- `CharacterFeatureSwapNode`：角色特征交换 (Character Feature Swap)
-- `MultiCharacterEditorNode`：多角色编辑器 (Multi Character Editor)
-
-### 📂 图像输入输出与文件
-
-- `SimpleLoadImage`：简易加载图像 (Simple Load Image)
-- `SaveImagePlus`：保存图像增强版 (Save Image Plus)
-- `SimpleImageCompare`：简易图像对比 (Simple Image Compare)
-- `SimpleCheckpointLoaderWithName`：简易Checkpoint加载器 (Simple Checkpoint Loader)
-- `ModelNameExtractor`：模型名称提取器 (Model Name Extractor)
-
-### 🔧 工作流控制与字符串工具
-
-- `ParameterControlPanel`：参数控制面板 (Parameter Control Panel)
-- `ParameterBreak`：参数展开 (Parameter Break)
-- `SimpleStringSplit`：简易字符串分隔 (Simple String Split)
-- `SimpleValueSwitch`：简易值切换 (Simple Value Switch)
-- `EnumSwitch`：枚举切换 (Enum Switch)
-- `WorkflowDescription`：工作流说明 (Workflow Description)
-- `SimpleNotify`：简易通知 (Simple Notify)
-- `ResolutionMasterSimplify`：分辨率大师简化版 (Resolution Master Simplify)
-
-### 🧷 组管理相关
-
-- `GroupMuteManager`：组静音管理器 (Group Mute Manager)
-- `GroupIgnoreManager`：组忽略管理器 (Group Ignore Manager)
-- `GroupIsEnabled`：组是否启用 (Group Is Enabled)
-
-### 🎨 Krita 联动
-
-- `OpenInKrita`：从Krita获取数据 (Fetch From Krita)
-- `FetchFromKrita`：从Krita获取数据 (Fetch From Krita)
-
-## 🧩 非节点型前端扩展
-
-以下功能以 JS 扩展形态存在，不会在节点列表中单独占一个节点名：
-
-- `Quick Group Navigation`（快速组导航）
-- 部分节点的设置弹窗、缓存面板、多语言与日志上报能力
-
-## 📎 兼容与说明
-
-- 本项目是 [ShiQi_Workflow](https://github.com/Aaalice233/ShiQi_Workflow) 的配套节点集，也可独立使用。
-- 部分节点（如多角色编辑相关）可能依赖额外生态插件，请按节点 UI 提示安装。
-- 若从旧版本升级，请以本 README 的“节点清单（当前有效）”为准，旧文档中的已删除节点不再维护。
-
-## ❓ 常见问题
-
-### 1. 🔍 节点没出现
-
-- 确认仓库路径为 `ComfyUI/custom_nodes/ComfyUI-Danbooru-Gallery`
-- 确认依赖安装完成后重启 ComfyUI
-- 查看 ComfyUI 控制台是否有导入异常日志
-
-### 2. 🖥️ 前端面板没加载
-
-- 检查 `WEB_DIRECTORY` 是否成功注册（插件初始化日志会输出）
-- 清理浏览器缓存后刷新 ComfyUI 页面
-
-### 3. 🧪 Krita 功能不可用
-
-- 检查 Krita 插件安装状态
-- 查看节点内的安装/重装按钮日志提示
-
-## 🧑‍💻 开发
-
-- 代码入口：`__init__.py`
-- Python 节点：`py/`
-- 前端扩展：`js/`
-- 工具脚本：`tools/`
-
-## 📄 许可证
-
-[MIT](LICENSE)
+源码基线：旧包 `663897c74d5aabf4437ae31381c16328472dc8f5`。本仓库不包含用户工作流、账号配置或本地运行日志。

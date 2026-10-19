@@ -2,6 +2,7 @@ import sys
 import inspect
 from .metadata_registry import MetadataRegistry
 from ..utils.logger import get_logger
+from ...coexistence import scope_metadata_hooks
 
 # 初始化logger
 logger = get_logger(__name__)
@@ -67,6 +68,7 @@ class MetadataHook:
                 logger.info("Detected sync ComfyUI execution, installing sync metadata hooks with chain support")
                 MetadataHook._install_sync_hooks(execution)
 
+            scope_metadata_hooks(execution, map_node_func_name)
             # 标记为已安装
             MetadataHook._installed = True
             logger.info("✓ Metadata collection hooks installed successfully")
@@ -83,7 +85,7 @@ class MetadataHook:
         # Define the wrapped _map_node_over_list function
         def map_node_over_list_with_metadata(obj, input_data_all, func, allow_interrupt=False, execution_block_cb=None, pre_execute_cb=None):
             # 收集元数据（前置）- 异常隔离，不影响其他 hook
-            if func == obj.FUNCTION and hasattr(obj, '__class__'):
+            if func == getattr(obj, "FUNCTION", None) and hasattr(obj, '__class__'):
                 try:
                     registry = MetadataRegistry()
                     prompt_id = registry.current_prompt_id
@@ -109,7 +111,7 @@ class MetadataHook:
             results = original_map_node_over_list(obj, input_data_all, func, allow_interrupt, execution_block_cb, pre_execute_cb)
 
             # 收集元数据（后置）- 异常隔离
-            if func == obj.FUNCTION and hasattr(obj, '__class__'):
+            if func == getattr(obj, "FUNCTION", None) and hasattr(obj, '__class__'):
                 try:
                     registry = MetadataRegistry()
                     prompt_id = registry.current_prompt_id
@@ -178,7 +180,7 @@ class MetadataHook:
             hidden_inputs = kwargs.get('hidden_inputs', None)
 
             # 收集元数据（前置）- 异常隔离
-            if func == obj.FUNCTION and hasattr(obj, '__class__'):
+            if func == getattr(obj, "FUNCTION", None) and hasattr(obj, '__class__'):
                 try:
                     registry = MetadataRegistry()
                     if prompt_id is not None:
@@ -200,7 +202,7 @@ class MetadataHook:
             )
 
             # 收集元数据（后置）- 异常隔离
-            if func == obj.FUNCTION and hasattr(obj, '__class__'):
+            if func == getattr(obj, "FUNCTION", None) and hasattr(obj, '__class__'):
                 try:
                     registry = MetadataRegistry()
                     if prompt_id is not None:
