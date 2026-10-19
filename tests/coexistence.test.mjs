@@ -46,6 +46,44 @@ test('ambiguous identities fail before mutation; notes cannot activate conversio
     assert.deepEqual(graph,before);
 });
 
+test('legacy selector with empty modern defaults is not rejected as conflicting', () => {
+    const graph={nodes:[{type:'ParameterControlPanel'}, {id:3500,type:'PromptSelector',properties:{
+        aux_id:'Aaalice233/ComfyUI-Danbooru-Gallery',cnr_id:'comfyui-aaalice-nodes',
+        selectedPrompts:'{}',promptWeights:'{}',promptSelectorState:{version:1,selections:[]}
+    },widgets_values:['','']}]};
+    assert.equal(convertLegacyWorkflow(graph).converted,1);
+    assert.equal(graph.nodes[1].type,'AaaliceLegacy_PromptSelector');
+});
+
+test('actual modern selection state takes precedence over stale package metadata', () => {
+    const graph={nodes:[{id:3500,type:'PromptSelector',properties:{
+        aux_id:'Aaalice233/ComfyUI-Danbooru-Gallery',
+        promptSelectorState:{version:1,selections:[{entryId:'modern-entry',weight:1}]}
+    }}]};
+    assert.equal(convertLegacyWorkflow(graph).converted,0);
+    assert.equal(graph.nodes[0].type,'PromptSelector');
+});
+
+test('nonempty legacy choices survive empty modern defaults even with stale modern metadata', () => {
+    const graph={nodes:[{id:3500,type:'PromptSelector',properties:{cnr_id:'comfyui-aaalice-nodes',
+        selectedPrompts:'{"category":["legacy tag"]}',promptWeights:'{}',
+        promptSelectorState:{version:1,selections:[]}
+    }}]};
+    const oldChoices=graph.nodes[0].properties.selectedPrompts;
+    assert.equal(convertLegacyWorkflow(graph).converted,1);
+    assert.equal(graph.nodes[0].properties.selectedPrompts,oldChoices);
+});
+
+test('two nonempty selection histories require a decision rather than discarding either', () => {
+    const graph={nodes:[{id:3500,type:'PromptSelector',properties:{
+        selectedPrompts:'{"category":["legacy tag"]}',
+        promptSelectorState:{version:1,selections:[{entryId:'modern-entry',weight:1}]}
+    }}]};
+    const before=structuredClone(graph);
+    assert.throws(()=>convertLegacyWorkflow(graph));
+    assert.deepEqual(graph,before);
+});
+
 test('legacy frontend never attaches its widget to the modern node class', async () => {
     let extension;
     const app={registerExtension:e=>{extension=e;}};

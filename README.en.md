@@ -18,6 +18,8 @@ Use ComfyUI's Python to install this fork's requirements.txt. Migrate runtime se
 
 ## Update
 
+Version 1.0.2 fixes false PromptSelector conflicts caused by stale package hints or empty defaults from the other frontend, including the node 3500 regression. Actual saved state takes precedence.
+
 ```bash
 git -C ComfyUI-Aaalice-Legacy pull --ff-only
 ```

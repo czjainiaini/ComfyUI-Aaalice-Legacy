@@ -10,7 +10,7 @@ Date: 2026-10-19. These checks validate the fork against an **unmodified** moder
 
 ## Results
 
-- Six JavaScript tests passed with `AAALICE_MODERN_ROOT` set to the clean modern checkout, including the optional upstream detector integration check. The unchanged modern detector accepts this fork's package/extension identity while still warning for the unpatched original package.
+- Ten JavaScript tests passed with `AAALICE_MODERN_ROOT` set to the clean modern checkout, including the optional upstream detector integration check. The unchanged modern detector accepts this fork's package/extension identity while still warning for the unpatched original package.
 - One Python test passed for concurrent execution-context isolation and transparent argument forwarding through metadata hooks.
 - Both real packages loaded in one ComfyUI process. The coexistence endpoint reported both providers ready and no overlapping IDs.
 - A single real execution graph used old and modern string splitters and group probes together. Outputs were `old-a / old-b`, `new-a / new-b`, and the intentionally distinct legacy `True` / modern `False` group-state semantics.
@@ -23,3 +23,7 @@ Date: 2026-10-19. These checks validate the fork against an **unmodified** moder
 Full GPU/model generation, complete legacy workflow acceptance, external LLM calls, gallery networking, complete metadata saving and Krita editing remain unverified. Legacy deprecation notices and other pre-existing host compatibility issues are not all repaired by these changes. Fragment pasting, partial merging, API prompt JSON and App Mode are outside the automatic conversion contract.
 
 The tests verify coexistence and selected behavior, not human acceptance of every legacy feature.
+
+## 1.0.2 import-detection regression
+
+PromptSelector package hints may be stale and empty defaults from another frontend are not conflicting user selections. Regression checks cover a legacy selector at node 3500 with empty modern defaults, a modern selector with stale legacy metadata, meaningful legacy choices alongside empty modern defaults, and refusal to discard either of two nonempty histories. The supplied legacy workflow was separately converted to an explicit-ID JSON and verified to preserve all other data. Private workflow contents are not published.

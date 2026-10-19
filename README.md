@@ -27,6 +27,8 @@ git clone --branch coexistence https://github.com/czjainiaini/ComfyUI-Aaalice-Le
 
 ## 更新
 
+`1.0.2` 修复提示词选择器因历史来源标记或空的新版默认状态而误报“新旧接口证据冲突”（例如节点 3500）；优先使用真实保存状态判定版本。
+
 ```bash
 git -C ComfyUI-Aaalice-Legacy pull --ff-only
 ```
