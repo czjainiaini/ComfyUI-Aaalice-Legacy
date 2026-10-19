@@ -63,6 +63,24 @@ git -C ComfyUI-Aaalice-Legacy pull --ff-only
 
 同一可视组只交给一套管理器控制，避免旧组管理器与新版 QuickGroupManager 争用节点 mode。旧包自己的弃用提示、缺依赖和宿主版本兼容问题仍需单独处理。
 
+## Impact Pack 的 findInputSlot 导入错误
+
+`1.0.3` 增加一个**手动运行**的修复工具，用于 `/extensions/ComfyUI-Impact-Pack/impact-pack.js` 报 `findInputSlot is not a function` 的情况。它复用 [Impact Pack 上游 PR #1233](https://github.com/ltdrdata/ComfyUI-Impact-Pack/pull/1233) 的一行修复：将 `connect()` 的目标从 `node.id` 改成节点对象 `node`，保留其余动态端口和连线逻辑。
+
+1. 先关闭 ComfyUI。
+2. 更新本 Fork 后，双击 `tools/修复ImpactPack.cmd`。工具尝试定位 ComfyUI 和原 Python，无法定位时询问路径。
+3. 重启 ComfyUI，浏览器 Ctrl+F5，重新导入干净工作流。
+
+工具会备份原 `impact-pack.js`；找不到唯一已知语句就停止，已修复时不重复写入。它不安装插件、不修改工作流、不改变模型配置。**仅 git pull 不会自动修改 Impact Pack，必须手动运行工具。**
+
+也可使用 ComfyUI 的 Python 执行：
+
+```bash
+python tools/fix_impact_connect.py ../ComfyUI-Impact-Pack
+```
+
+修改 Impact Pack 后，其 Git 工作区会多出一行本地修改；如需还原，把工具打印的备份复制回 `js/impact-pack.js`。更新官方包时请保留备份并核对该补丁是否仍然需要。
+
 ## 开发测试
 
 运行不需要 Node.js；Node 仅用于开发回归检查。

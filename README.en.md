@@ -36,6 +36,12 @@ See [VALIDATION.md](VALIDATION.md) for Windows / ComfyUI 0.39.0 / frontend 1.53.
 
 Full GPU generation, external LLM calls, gallery networking, complete saved metadata and Krita editing remain unverified. This is not a general repair for all legacy host incompatibilities. Fragment pasting, partial merging, API prompt JSON and App Mode are outside the automatic conversion contract. Ambiguous identities fail explicitly. Previously corrupted workflows require a clean backup. Do not let two group managers control the same visual group.
 
+## Impact Pack findInputSlot error
+
+Version 1.0.3 adds an opt-in manual repair tool for the Impact Pack string-node-ID import error. It applies the one-line fix from [upstream PR #1233](https://github.com/ltdrdata/ComfyUI-Impact-Pack/pull/1233), passing the node object instead of node.id to connect(). Stop ComfyUI, run tools/修复ImpactPack.cmd, restart and hard-refresh the browser. Or run `python tools/fix_impact_connect.py ../ComfyUI-Impact-Pack` with ComfyUI's Python.
+
+The tool backs up the original file, refuses unknown or duplicate call sites, and is idempotent. A git pull of this fork does not modify Impact Pack automatically. The local Impact Pack source edit may need restoring from the printed backup before an upstream update. No models or workflows are changed.
+
 ## Development tests
 
 ```bash

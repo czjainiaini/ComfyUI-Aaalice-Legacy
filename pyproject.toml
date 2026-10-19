@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-aaalice-legacy"
-version = "1.0.2"
+version = "1.0.3"
 description = "Unofficial legacy Aaalice nodes with independent IDs for coexistence with ComfyUI-Aaalice-Nodes"
 authors = [{ name = "ComfyUI-Danbooru-Gallery Contributors" }]
 license = { text = "MIT" }

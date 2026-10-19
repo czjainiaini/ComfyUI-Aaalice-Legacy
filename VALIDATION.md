@@ -27,3 +27,7 @@ The tests verify coexistence and selected behavior, not human acceptance of ever
 ## 1.0.2 import-detection regression
 
 PromptSelector package hints may be stale and empty defaults from another frontend are not conflicting user selections. Regression checks cover a legacy selector at node 3500 with empty modern defaults, a modern selector with stale legacy metadata, meaningful legacy choices alongside empty modern defaults, and refusal to discard either of two nonempty histories. The supplied legacy workflow was separately converted to an explicit-ID JSON and verified to preserve all other data. Private workflow contents are not published.
+
+## 1.0.3 optional Impact Pack repair
+
+The actual Impact Pack onConnectionsChange handler was exercised for 12 affected node types with modern string and historical numeric node IDs. Before the upstream one-line fix, all 12 string-ID cases reproduced findInputSlot TypeError while numeric IDs passed; afterward all 24 cases passed, preserving type propagation and trailing dynamic inputs. This is a focused frontend-contract harness, not full workflow/GPU acceptance. Repair-tool filesystem tests verified byte-exact backups, BOM/CRLF preservation, idempotence and no writes for unknown/duplicate/commented call sites. The user's installed Impact Pack was not edited during these tests.
